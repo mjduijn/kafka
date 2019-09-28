@@ -18,7 +18,10 @@ package org.apache.kafka.streams.state.internals;
 
 import org.junit.Test;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class InMemoryTimeOrderedKeyValueBufferTest {
 
@@ -34,7 +37,13 @@ public class InMemoryTimeOrderedKeyValueBufferTest {
 
     @Test
     public void bufferShouldAllowLoggingEnablement() {
-        new InMemoryTimeOrderedKeyValueBuffer.Builder<>(null, null, null).withLoggingEnabled(Collections.emptyMap());
+        final Map<String, String> logConfig = new HashMap<>();
+        logConfig.put("key", "value");
+        final Map<String, String> actualLogConfig = new InMemoryTimeOrderedKeyValueBuffer.Builder<>(null, null, null)
+                .withLoggingEnabled(logConfig)
+                .logConfig();
+
+        assertEquals(logConfig, actualLogConfig);
     }
 
     @Test
